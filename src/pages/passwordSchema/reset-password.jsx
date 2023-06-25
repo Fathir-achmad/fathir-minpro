@@ -7,6 +7,7 @@ export const Verify = () => {
   const { token } = useParams();
   const handleSubmit = async () => {
     try {
+      
       const response = await Axios.patch(
         "hhttps://minpro-blog.purwadhikabootcamp.com/api/auth/resetPass",
         {},

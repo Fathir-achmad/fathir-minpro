@@ -12,19 +12,21 @@ import {
   InputLeftAddon,
   Link,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
-import  Axios  from "axios";
+import Axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { AiOutlinePhone } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { setValue } from "../redux/userSlice";
+import { setValue } from "../../redux/userSlice";
 
 export const PhoneLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toast = useToast()
   const onLogin = async (data) => {
     try {
       const response = await Axios.post(
@@ -37,9 +39,25 @@ export const PhoneLogin = () => {
         response.data.isAccountExist;
       dispatch(setValue({ username, email, phone, imgProfile }));
       console.log(response.data.isAccountExist);
-      navigate("/");
+      toast({
+        title: "Login Success",
+        description: "You have successfully logged in.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Login Error",
+        description: "An error occurred during login.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
   const token = localStorage.getItem("token");
@@ -67,7 +85,7 @@ export const PhoneLogin = () => {
       validationSchema={LoginSchema}
       onSubmit={(value, actions) => {
         console.log(value);
-        onLogin(value)
+        onLogin(value);
       }}
     >
       {({ props }) => {

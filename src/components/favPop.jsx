@@ -1,5 +1,7 @@
 import {
+  Avatar,
   Box,
+  Flex,
   Tab,
   TabList,
   TabPanel,
@@ -9,17 +11,19 @@ import {
 } from "@chakra-ui/react";
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const FavPop = () => {
   const navigate = useNavigate();
   const [blog, setBlog] = useState([]);
   const [fav, setFav] = useState([]);
+  const data = useSelector((state) => state.user.value);
 
   const getMost = async (data) => {
     try {
       const response = await Axios.get(
-        "https://minpro-blog.purwadhikabootcamp.com/api/blog/pagFav",
+        "https://minpro-blog.purwadhikabootcamp.com/api/blog/pagFav?page=1&orderBy=total_fav&sort=DESC&size=10",
         data
       );
       setFav(response.data.result);
@@ -40,7 +44,9 @@ export const FavPop = () => {
     }
   };
   const handleClick = (id) => {
+    navigate(`/`);
     navigate(`/detailPage/${id}`);
+    window.location.reload();
   };
   useEffect(() => {
     getMost();
@@ -49,39 +55,71 @@ export const FavPop = () => {
   return (
     <Box
       border={"2px"}
-      w={"25vw"}
+      w={"20vw"}
+      h={"120vh"}
       maxWidth="500px"
       borderWidth={"5px"}
       borderRadius="md"
       boxShadow="lg"
     >
-      <Tabs isFitted variant="enclosed">
+      <Tabs isFitted variant="enclosed" cursor={"pointer"}>
         <TabList mb="1em">
-          <Tab>One</Tab>
-          <Tab>Two</Tab>
+          <Tab>Favourite</Tab>
+          <Tab>Recently</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Text>
-              {blog?.map((v, i) => {
-                return (
-                  <Box key={i} onClick={() => handleClick(v.id)}>
-                    <Text>{v.content}</Text>
+            {fav?.map((v, i) => {
+              return (
+                <Flex borderBottom={"1px solid black"} _hover={{bgColor:"gray.300"}}>
+                  <Avatar
+                    src={`https://minpro-blog.purwadhikabootcamp.com/${v.User.imgProfile}`}
+                  />
+                  <Box>
+                    <Text
+                      overflow={"hidden"}
+                      whiteSpace={"nowrap"}
+                      textOverflow={"ellipsis"}
+                      maxWidth={"200px"}
+                      fontSize={"20px"}
+                    >
+                      <Box key={i} onClick={() => handleClick(v.id)}>
+                        <Text>{v.title}</Text>
+                        <Text fontSize={"15px"}>{v.User.username}</Text>
+                        <Text fontSize={"15px"}> Likes: {v.total_fav}</Text>
+                      </Box>
+                    </Text>
                   </Box>
-                );
-              })}
-            </Text>
+                </Flex>
+              );
+            })}
           </TabPanel>
+
           <TabPanel>
-            <Text>
-              {fav?.map((v, i) => {
-                return (
-                  <Box key={i} onClick={() => handleClick(v.id)}>
-                    <Text>{v.title}</Text>
+            {blog?.map((v, i) => {
+              console.log(v);
+              return (
+                <Flex borderBottom={"1px solid black"}>
+                  <Avatar
+                    src={`https://minpro-blog.purwadhikabootcamp.com/${v.User.imgProfile}`}
+                  />
+                  <Box>
+                    <Text
+                      overflow={"hidden"}
+                      whiteSpace={"nowrap"}
+                      textOverflow={"ellipsis"}
+                      maxWidth={"200px"}
+                      fontSize={"20px"}
+                    >
+                      <Box key={i} onClick={() => handleClick(v.id)}>
+                        <Text>{v.title}</Text>
+                        <Text fontSize={"15px"}>{v.User.username}</Text>
+                      </Box>
+                    </Text>
                   </Box>
-                );
-              })}
-            </Text>
+                </Flex>
+              );
+            })}
           </TabPanel>
         </TabPanels>
       </Tabs>

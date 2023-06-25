@@ -7,6 +7,7 @@ import {
   Stack,
   Button,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -19,18 +20,17 @@ import { useNavigate } from "react-router-dom";
 export const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const data = useSelector((state) => state.user.value);
+  const toast = useToast()
   const token = localStorage.getItem("token");
   console.log(data);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const onChangeIt = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    // localStorage.removeItem("token");
   };
 
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL = "http://localhost:3000";
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/changePass",
         data,
@@ -40,7 +40,26 @@ export const ChangePassword = () => {
       );
       console.log(data);
       console.log(response);
-    } catch (error) {}
+      toast({
+        title: "Change password",
+        description: "You have successfully change your password.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      // setTimeout(() => {
+      //   navigate("/login");
+      // }, 3000);
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Edit password Error",
+        description: "An error to change your password.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const ChangePassSchema = Yup.object().shape({

@@ -64,7 +64,7 @@ export const Footer = () => {
             Created By <Link href="https://github.com/Fathir-achmad">Fathir achmad sabiilah</Link> |
           </Text>
           <Icon as={FaCopyright} />
-          <Text> 2022 All rights reserved.</Text>
+          <Text> 2023 All rights reserved.</Text>
         </Center>
       </Box>
     </Box>

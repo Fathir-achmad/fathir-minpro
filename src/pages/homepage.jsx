@@ -2,17 +2,14 @@ import {
   Box,
   Center,
   Flex,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
+  Heading,
 } from "@chakra-ui/react";
 import { Carousel } from "../components/carousel";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { FavPop } from "../components/favPop";
+import { Pagination } from "../components/pagination";
+import { BlogCarousel } from "../components/blogCarousel";
 
 export const HomePage = () => {
   const [blog, setBlog] = useState([]);
@@ -45,44 +42,37 @@ export const HomePage = () => {
   return (
     <Box p={"20px"}>
       <Box>
-        <Flex gap={"5%"} justifyContent={"center"}>
-          <Box
+          <Flex justifyContent={"center"} mx={"auto"}
             h={"70vh"}
-            w={"80vw"}
+            w={"75vw"}
             border={"2px"}
-            maxWidth="500px"
             borderWidth={"10px"}
             borderRadius="md"
             boxShadow="lg"
+            mb={"5px"}
           >
             <Carousel />
-          </Box>
-          <Box>
+          </Flex>
+          <Center gap={"2%"}>
+            <Box
+            h={"70vh"}
+            w={"50vw"}
+            border={"2px"}
+            borderWidth={"10px"}
+            borderRadius="md"
+            boxShadow="lg"
+            >
+              <BlogCarousel/>
+            </Box>
             <FavPop />
-          </Box>
-        </Flex>
+          </Center>
       </Box>
       <Box>
         <Center>
           <Box h={"100%"} w={"75%"}>
-            <Flex gap={"10px"} m={"10px"}>
-              <Box border={"1px"} solid w={"60vw"} h={"70vh"} gap={"2px"}></Box>
-              <Box border={"1px"} solid w={"40vw"}></Box>
-            </Flex>
-            <Flex gap={"10px"} m={"10px"}>
-              <Box border={"1px"} solid h={"25vh"} w={"25%"}>
-                1{" "}
-              </Box>
-              <Box border={"1px"} solid h={"25vh"} w={"25%"}>
-                2{" "}
-              </Box>
-              <Box border={"1px"} solid h={"25vh"} w={"25%"}>
-                3{" "}
-              </Box>
-              <Box border={"1px"} solid h={"25vh"} w={"25%"}>
-                4{" "}
-              </Box>
-            </Flex>
+            <Center gap={"10px"} m={"10px"}>
+              <Pagination/>
+            </Center>
           </Box>
         </Center>
       </Box>

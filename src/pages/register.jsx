@@ -7,6 +7,7 @@ import {
   GridItem,
   Heading,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -17,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast()
   const { token } = useParams();
   const SeePsw = () => {
     setShowPassword(!showPassword);
@@ -45,7 +47,7 @@ export const RegisterPage = () => {
       .required("Password is required"),
   });
   const handleSubmit = async (data) => {
-    data.FE_URL = "http://localhost:3000"
+    data.FE_URL = "http://localhost:3000";
     try {
       const response = await Axios.post(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
@@ -56,10 +58,26 @@ export const RegisterPage = () => {
           },
         }
       );
-      navigate("/login");
+      toast({
+        title: "Verify account",
+        description: "Please check your email",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
       console.log(response.data);
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "An error occurred while creating the blog.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
   return (

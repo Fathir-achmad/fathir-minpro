@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
@@ -18,11 +19,10 @@ export const ChangePhone = () => {
   const data = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
   console.log(data);
-
+  const toast = useToast()
   const navigate = useNavigate();
   const onChangeIt = () => {
     localStorage.removeItem("token");
-    navigate("/login");
   };
 
   const handleSubmit = async (data) => {
@@ -37,13 +37,31 @@ export const ChangePhone = () => {
       );
       console.log(data);
       console.log(response);
-    } catch (error) {}
+      toast({
+        title: "Edit profile Success",
+        description: "You have successfully changed your profile.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    } catch (err) {
+      toast({
+        title: "Edit profile Error",
+        description: "An error to changed your phone.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const ChangePhoneSchema = Yup.object().shape({
-    currentPhone: Yup.string().required("Username is required"),
+    currentPhone: Yup.string().required("Phone is required"),
 
-    newPhone: Yup.string().required("Username is required"),
+    newPhone: Yup.string().required("Phone is required"),
   });
   return (
     <Formik

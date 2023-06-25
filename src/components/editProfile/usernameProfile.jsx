@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
@@ -14,22 +15,23 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export const ChangeEmail = () => {
+export const ChangeUsername = () => {
   const data = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
+  const toast = useToast();
   console.log(data);
 
   const navigate = useNavigate();
   const onChangeIt = () => {
     localStorage.removeItem("token");
-    navigate("/login");
   };
 
   const handleSubmit = async (data) => {
+    console.log(data);
     try {
-      data.FE_URL = "http://localhost:3000";
+      data.FE_URL = window.location.origin;
       const response = await Axios.patch(
-        "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeEmail",
+        "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername",
         data,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -37,21 +39,39 @@ export const ChangeEmail = () => {
       );
       console.log(data);
       console.log(response);
-    } catch (error) {}
+      toast({
+        title: "Edit username Success",
+        description: "You have successfully changed your username.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Edit username Error",
+        description: "An error to changed your username.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
-  const ChangeEmailSchema = Yup.object().shape({
-    currentEmail: Yup.string().required("Email is required"),
-
-    newEmail: Yup.string().required("New Email is required"),
+  const ChangeUserSchema = Yup.object().shape({
+    currentUsername: Yup.string().required("Your current username is required"),
+    newUsername: Yup.string().required("Please enter your new username"),
   });
   return (
     <Formik
       initialValues={{
-        currentEmail: "",
-        newEmail: "",
+        currentUsername: "",
+        newUsername: "",
       }}
-      validationSchema={ChangeEmailSchema}
+      validationSchema={ChangeUserSchema}
       onSubmit={(value, action) => {
         console.log(value);
         handleSubmit(value);
@@ -60,31 +80,32 @@ export const ChangeEmail = () => {
       {(props) => {
         return (
           <Box as={Form} rounded={"lg"} boxShadow={"lg"} p={8}>
-            <Heading textAlign={"center"}>Edit Email</Heading>
+            <Heading textAlign={"center"}>Username</Heading>
+
             <Stack spacing={4}>
               <FormControl>
-                <FormLabel>Current Email</FormLabel>
+                <FormLabel>Current username</FormLabel>
                 <ErrorMessage
                   component="div"
-                  name="currentEmail"
+                  name="currentUsername"
                   style={{ color: "red" }}
                 />
-                <Input as={Field} name="currentEmail" />
+                <Input as={Field} name="currentUsername" />
               </FormControl>
 
               <FormControl>
-                <FormLabel>New Email</FormLabel>
+                <FormLabel>New username</FormLabel>
                 <ErrorMessage
                   component="div"
-                  name="newEmail"
+                  name="newUsername"
                   style={{ color: "red" }}
                 />
-                <Input as={Field} name="newEmail" />
+                <Input as={Field} name="newUsername" />
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
-                  isDisabled={!props.dirty}
                   onClick={onChangeIt}
+                  // isDisabled={!props.dirty}
                   type={"submit"}
                   loadingText="Submitting"
                   size="lg"

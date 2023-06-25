@@ -10,16 +10,19 @@ import {
   Select,
   Stack,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import Axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { MyBlog } from "../components/myBlog";
+import { ViewLike } from "../components/Like/viewLike";
 
 export const CreateBlog = () => {
   const [category, setCategory] = useState();
-
+  const toast = useToast()
   const token = localStorage.getItem("token");
   const CreateSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -57,8 +60,22 @@ export const CreateBlog = () => {
         }
       );
       console.log(response.data);
+      toast({
+        title: "Blog Created",
+        description: "Your blog has been created successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "An error occurred while creating the blog.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -97,10 +114,25 @@ export const CreateBlog = () => {
     >
       {({ setFieldValue, dirty }) => {
         return (
-          <Box as={Form}>
-            <Box h={"100h"}>
-              <Heading textAlign={"center"}>Create Blog</Heading>
-              <Flex p={5} gap={"50px"} justifyContent={"center"}>
+          <Box as={Form} p={"5%"}>
+            <Box>
+              <Heading
+                mb={5}
+                textAlign={"center"}
+                borderRadius="full"
+                as="h1"
+                size="xl"
+                color="white"
+                bg="blue.700"
+                fontWeight="bold"
+              >
+                Create Blog
+              </Heading>
+              <Flex
+                p={5}
+                gap={"5px"}
+                justifyContent={"center"}
+              >
                 <Box
                   w={"50vw"}
                   minH={"50vh"}
@@ -231,6 +263,7 @@ export const CreateBlog = () => {
                     </Button>
                   </Stack>
                 </Box>
+
                 <FormControl>
                   <Box
                     p={5}
@@ -259,6 +292,12 @@ export const CreateBlog = () => {
                   </Box>
                 </FormControl>
               </Flex>
+            </Box>
+            <Box p={"3%"}>
+              <Stack spacing={5}>
+              <MyBlog />
+              <ViewLike />
+              </Stack>
             </Box>
           </Box>
         );

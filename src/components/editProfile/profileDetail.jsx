@@ -1,7 +1,5 @@
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Box,
-  ButtonGroup,
   Editable,
   EditableInput,
   EditablePreview,
@@ -9,15 +7,13 @@ import {
   FormLabel,
   HStack,
   Heading,
-  IconButton,
   Stack,
-  useEditableControls,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
-export const EditProfile = () => {
+export const ProfileDetail = () => {
   const data = useSelector((state) => state.user.value);
   console.log(data);
 
@@ -29,29 +25,7 @@ export const EditProfile = () => {
   });
 
   /* Here's a custom control */
-  function EditableControls() {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls();
 
-    return isEditing ? (
-      <Box as={Form}>
-        <FormControl>
-        <ButtonGroup size="sm">
-          <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-          <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-        </ButtonGroup>
-        </FormControl>
-      </Box>
-    ) : (
-      <Box>
-        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
-      </Box>
-    );
-  }
   return (
     <Formik
       initialValues={{
@@ -62,15 +36,14 @@ export const EditProfile = () => {
       }}
       validationSchema={EditSchema}
       onSubmit={(value, actions) => {
-        console.log(value);
+        // console.log(value);
       }}
     >
       {({ props }) => {
         return (
           <Box as={Form}>
-            <Heading textAlign={"center"}>Edit profile</Heading>
+            <Heading textAlign={"center"}>Profile detail</Heading>
             <Stack p={"5%"}>
-
               <FormControl>
                 <FormLabel textColor={"black"}>Username</FormLabel>
                 <ErrorMessage
@@ -82,14 +55,7 @@ export const EditProfile = () => {
                   defaultValue={data.username}
                   fontSize="md"
                   isPreviewFocusable={false}
-                >
-                  <HStack>
-                    <EditablePreview />
-                    {/* Here is the custom input */}
-                    <Field as={EditableInput} />
-                    <EditableControls />
-                  </HStack>
-                </Editable>
+                ></Editable>
               </FormControl>
 
               <FormControl>
@@ -103,14 +69,7 @@ export const EditProfile = () => {
                   defaultValue={data.email}
                   fontSize="md"
                   isPreviewFocusable={false}
-                >
-                  <HStack>
-                    <EditablePreview />
-                    {/* Here is the custom input */}
-                    <Field as={EditableInput} />
-                    <EditableControls />
-                  </HStack>
-                </Editable>
+                ></Editable>
               </FormControl>
 
               <FormControl>
@@ -124,14 +83,7 @@ export const EditProfile = () => {
                   defaultValue={data.phone}
                   fontSize="md"
                   isPreviewFocusable={false}
-                >
-                  <HStack>
-                    <EditablePreview />
-                    {/* Here is the custom input */}
-                    <Field as={EditableInput} />
-                    <EditableControls />
-                  </HStack>
-                </Editable>
+                ></Editable>
               </FormControl>
 
               <FormControl>
@@ -145,14 +97,7 @@ export const EditProfile = () => {
                   defaultValue={data.password}
                   fontSize="md"
                   isPreviewFocusable={false}
-                >
-                  <HStack>
-                    <EditablePreview />
-                    {/* Here is the custom input */}
-                    <Field as={EditableInput} />
-                    <EditableControls />
-                  </HStack>
-                </Editable>
+                ></Editable>
               </FormControl>
             </Stack>
           </Box>

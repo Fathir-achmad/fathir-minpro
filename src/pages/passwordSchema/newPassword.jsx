@@ -32,6 +32,7 @@ export const ResetPsw = () => {
       .required("Password is required"),
   });
   const handleSubmit = async (data) => {
+    data.FE_URL = window.location.origin
     try {
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/resetPass",

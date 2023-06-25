@@ -12,26 +12,22 @@ import {
   TabPanel,
   Input,
   FormLabel,
+  Center,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { EditProfile } from "../components/editProfile";
+import { ProfileDetail } from "../components/editProfile/profileDetail";
 import { AiFillMail, AiFillPhone, AiOutlineUser } from "react-icons/ai";
 import { MdOutlineDriveFileRenameOutline, MdPassword } from "react-icons/md";
-import { ChangePassword } from "../components/passwordProfile";
-import { ChangeUsername } from "../components/usernameProfile";
-import { ChangePhone } from "../components/phoneProfile";
-import { ChangeEmail } from "../components/emailProfile";
+import { ChangePassword } from "../components/editProfile/passwordProfile";
+import { ChangeUsername } from "../components/editProfile/usernameProfile";
+import { ChangePhone } from "../components/editProfile/phoneProfile";
+import { ChangeEmail } from "../components/editProfile/emailProfile";
 import * as Yup from "yup";
 import Axios from "axios";
 import { Form, Formik } from "formik";
+import { MyBlog } from "../components/myBlog";
 
-const user = {
-  name: "fateer",
-  email: "Fateer@mail.com",
-  phone: "082210119000",
-  avatar: "https://bit.ly/dan-abramov",
-};
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -39,7 +35,6 @@ export const ProfilePage = () => {
   console.log(data);
   const token = localStorage.getItem("token");
 
-  
   const onLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -58,6 +53,7 @@ export const ProfilePage = () => {
         }
       );
       console.log(response);
+      navigate("/profile")
     } catch (error) {}
   };
 
@@ -78,19 +74,22 @@ export const ProfilePage = () => {
     >
       {({ setFieldValue, dirty }) => {
         return (
+          <Center>
+
           <Box p={8} as={Form} rounded={"lg"} boxShadow={"lg"}>
             <Box>
               <Box textAlign={"center"} mb={"30px"} mt={"30px"}>
                 <Heading textAlign={"center"} mb={"20px"}>
                   My Profile
                 </Heading>
-                <Badge colorScheme="blue">{user.role}</Badge>
+                <Badge colorScheme="blue"></Badge>
               </Box>
+              <Flex>
 
               <Flex gap={"10px"} justifyContent={"center"}>
                 <Box
-                  w={"50%"}
-                  h={"50%"}
+                  w={"100%"}
+                  h={"100%"}
                   p={8}
                   maxWidth="500px"
                   borderWidth={"20px"}
@@ -124,7 +123,7 @@ export const ProfilePage = () => {
                           size="xs"
                           width="30%"
                           type="submit"
-                        >
+                          >
                           Change it!
                         </Button>
                       </Flex>
@@ -152,14 +151,13 @@ export const ProfilePage = () => {
                       </TabList>
                       <TabPanels>
                         <TabPanel>
-                          <EditProfile />
+                          <ProfileDetail />
                         </TabPanel>
                         <TabPanel>
                           <Box>
-                            <ChangePassword />
+                            <ChangePassword/>
                           </Box>
                         </TabPanel>
-
                         <TabPanel>
                           <Box>
                             <ChangeUsername />
@@ -191,8 +189,11 @@ export const ProfilePage = () => {
                   </Button>
                 </Box>
               </Flex>
+
+                    </Flex>
             </Box>
           </Box>
+      </Center>
         );
       }}
     </Formik>

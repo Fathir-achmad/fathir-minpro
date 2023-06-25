@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 import "./styles.css";
 
 // import required modules
-import { Pagination, Navigation } from "swiper";
+import { Pagination, Navigation,Autoplay } from "swiper";
 import  Axios  from "axios";
 import { Image, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -35,14 +35,17 @@ export const Carousel = () => {
   return (
     <>
       <Swiper
-        slidesPerView={1}
         spaceBetween={30}
-        loop={true}
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         pagination={{
           clickable: true,
         }}
         navigation={true}
-        modules={[Pagination, Navigation]}
+        modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
       >
         {content?.map((v,i) => {

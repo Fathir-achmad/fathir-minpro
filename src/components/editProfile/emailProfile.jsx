@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 
 import { useSelector } from "react-redux";
@@ -14,22 +15,22 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export const ChangeUsername = () => {
+export const ChangeEmail = () => {
   const data = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
+  const toast = useToast()
   console.log(data);
 
   const navigate = useNavigate();
   const onChangeIt = () => {
     localStorage.removeItem("token");
-    navigate("/login");
   };
 
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL = "http://localhost:3000";
+      data.FE_URL = "http://localhost:4000";
       const response = await Axios.patch(
-        "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername",
+        "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeEmail",
         data,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -37,21 +38,40 @@ export const ChangeUsername = () => {
       );
       console.log(data);
       console.log(response);
-    } catch (error) {}
+      toast({
+        title: "Email change Success",
+        description: "You have successfully change your email.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Edit email error",
+        description: "An error to change your email.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
-  const ChangeUserSchema = Yup.object().shape({
-    currentUsername: Yup.string().required("Username is required"),
+  const ChangeEmailSchema = Yup.object().shape({
+    currentEmail: Yup.string().required("Email is required"),
 
-    newUsername: Yup.string().required("Username is required"),
+    newEmail: Yup.string().required("New Email is required"),
   });
   return (
     <Formik
       initialValues={{
-        currentUsername: "",
-        newUsername: "",
+        currentEmail: "",
+        newEmail: "",
       }}
-      validationSchema={ChangeUserSchema}
+      validationSchema={ChangeEmailSchema}
       onSubmit={(value, action) => {
         console.log(value);
         handleSubmit(value);
@@ -60,32 +80,31 @@ export const ChangeUsername = () => {
       {(props) => {
         return (
           <Box as={Form} rounded={"lg"} boxShadow={"lg"} p={8}>
-            <Heading textAlign={"center"}>Username</Heading>
-
+            <Heading textAlign={"center"}>Edit Email</Heading>
             <Stack spacing={4}>
               <FormControl>
-                <FormLabel>Current username</FormLabel>
+                <FormLabel>Current Email</FormLabel>
                 <ErrorMessage
                   component="div"
-                  name="currentUsername"
+                  name="currentEmail"
                   style={{ color: "red" }}
                 />
-                <Input as={Field} name="currentUsername" />
+                <Input as={Field} name="currentEmail" />
               </FormControl>
 
               <FormControl>
-                <FormLabel>New username</FormLabel>
+                <FormLabel>New Email</FormLabel>
                 <ErrorMessage
                   component="div"
-                  name="newUsername"
+                  name="newEmail"
                   style={{ color: "red" }}
                 />
-                <Input as={Field} name="newUsername" />
+                <Input as={Field} name="newEmail" />
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
-                  onClick={onChangeIt}
                   isDisabled={!props.dirty}
+                  onClick={onChangeIt}
                   type={"submit"}
                   loadingText="Submitting"
                   size="lg"
