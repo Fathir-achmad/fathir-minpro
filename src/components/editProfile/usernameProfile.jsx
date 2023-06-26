@@ -19,15 +19,11 @@ export const ChangeUsername = () => {
   const data = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
   const toast = useToast();
-  console.log(data);
+  // console.log(data);
 
   const navigate = useNavigate();
-  const onChangeIt = () => {
-    localStorage.removeItem("token");
-  };
 
   const handleSubmit = async (data) => {
-    console.log(data);
     try {
       data.FE_URL = window.location.origin;
       const response = await Axios.patch(
@@ -37,15 +33,16 @@ export const ChangeUsername = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(data);
-      console.log(response);
+      // console.log(data);
+      // console.log(response);
       toast({
         title: "Edit username Success",
-        description: "You have successfully changed your username.",
+        description: "You have successfully changed your username, please verify.",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
+      localStorage.removeItem("token");
       setTimeout(() => {
         navigate("/login");
       }, 3000);
@@ -79,8 +76,10 @@ export const ChangeUsername = () => {
     >
       {(props) => {
         return (
-          <Box as={Form} rounded={"lg"} boxShadow={"lg"} p={8}>
-            <Heading textAlign={"center"}>Username</Heading>
+          <Form rounded={"lg"} boxShadow={"lg"} p={8}>
+            <Heading textAlign={"center"} mb={"10%"}>
+              Username
+            </Heading>
 
             <Stack spacing={4}>
               <FormControl>
@@ -104,8 +103,7 @@ export const ChangeUsername = () => {
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
-                  onClick={onChangeIt}
-                  // isDisabled={!props.dirty}
+                  isDisabled={!props.dirty}
                   type={"submit"}
                   loadingText="Submitting"
                   size="lg"
@@ -119,7 +117,7 @@ export const ChangeUsername = () => {
                 </Button>
               </Stack>
             </Stack>
-          </Box>
+          </Form>
         );
       }}
     </Formik>

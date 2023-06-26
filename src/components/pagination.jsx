@@ -55,6 +55,7 @@ export const Pagination = () => {
         <SimpleGrid columns={{ base: 1, md: itemsPerRow }} spacing={4}>
           {articles.map((article) => (
             <Box
+            cursor={"pointer"}
             border={"2px"}
             borderWidth={"5px"}
             borderRadius="md"
@@ -65,7 +66,6 @@ export const Pagination = () => {
               <Heading as="h2" fontSize="xl" mb={2}>
                 {article.title}
               </Heading>
-            
             </Box>
           ))}
         </SimpleGrid>

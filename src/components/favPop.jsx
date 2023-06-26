@@ -99,7 +99,7 @@ export const FavPop = () => {
             {blog?.map((v, i) => {
               console.log(v);
               return (
-                <Flex borderBottom={"1px solid black"}>
+                <Flex borderBottom={"1px solid black"} _hover={{bgColor:"gray.300"}}>
                   <Avatar
                     src={`https://minpro-blog.purwadhikabootcamp.com/${v.User.imgProfile}`}
                   />

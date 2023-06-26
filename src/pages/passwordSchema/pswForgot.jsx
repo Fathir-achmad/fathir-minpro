@@ -5,14 +5,18 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import  Axios  from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 export const ForgotPsw = () => {
+  const navigate = useNavigate()
   const { token } = useParams()
+  const toast = useToast()
+
   const ForgotSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -30,9 +34,24 @@ export const ForgotPsw = () => {
           },
         }
       );
+      navigate("/login")
       console.log(response.data);
+      toast({
+        title: "Success",
+        description: "Please check your email to verify.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Failed",
+        description: "An error to verify your email.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   }
   return (
@@ -85,7 +104,7 @@ export const ForgotPsw = () => {
                 </FormControl>
               </Box>
               <Button colorScheme="blue" size="lg" width="full" type="submit">
-                Sign In
+                Verify
               </Button>
             </Box>
           </Box>

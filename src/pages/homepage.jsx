@@ -50,6 +50,7 @@ export const HomePage = () => {
             borderRadius="md"
             boxShadow="lg"
             mb={"5px"}
+            cursor={"pointer"}
           >
             <Carousel />
           </Flex>
@@ -61,6 +62,7 @@ export const HomePage = () => {
             borderWidth={"10px"}
             borderRadius="md"
             boxShadow="lg"
+            cursor={"pointer"}
             >
               <BlogCarousel/>
             </Box>

@@ -18,17 +18,14 @@ import { useNavigate } from "react-router-dom";
 export const ChangeEmail = () => {
   const data = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
-  const toast = useToast()
+  const toast = useToast();
   console.log(data);
 
   const navigate = useNavigate();
-  const onChangeIt = () => {
-    localStorage.removeItem("token");
-  };
 
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL = "http://localhost:4000";
+      data.FE_URL = window.location.origin;
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/changeEmail",
         data,
@@ -40,13 +37,14 @@ export const ChangeEmail = () => {
       console.log(response);
       toast({
         title: "Email change Success",
-        description: "You have successfully change your email.",
+        description: "You have successfully change your email,Please verify dirst.",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
+      localStorage.removeItem("token");
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 3000);
     } catch (err) {
       console.log(err);
@@ -80,7 +78,9 @@ export const ChangeEmail = () => {
       {(props) => {
         return (
           <Box as={Form} rounded={"lg"} boxShadow={"lg"} p={8}>
-            <Heading textAlign={"center"}>Edit Email</Heading>
+            <Heading textAlign={"center"} mb={"10%"}>
+              Edit Email
+            </Heading>
             <Stack spacing={4}>
               <FormControl>
                 <FormLabel>Current Email</FormLabel>
@@ -104,7 +104,6 @@ export const ChangeEmail = () => {
               <Stack spacing={10} pt={2}>
                 <Button
                   isDisabled={!props.dirty}
-                  onClick={onChangeIt}
                   type={"submit"}
                   loadingText="Submitting"
                   size="lg"

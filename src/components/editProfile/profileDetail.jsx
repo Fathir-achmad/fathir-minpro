@@ -7,6 +7,7 @@ import {
   FormLabel,
   HStack,
   Heading,
+  Input,
   Stack,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -42,7 +43,9 @@ export const ProfileDetail = () => {
       {({ props }) => {
         return (
           <Box as={Form}>
-            <Heading textAlign={"center"}>Profile detail</Heading>
+            <Heading textAlign={"center"} mb={"10%"}>
+              Profile detail
+            </Heading>
             <Stack p={"5%"}>
               <FormControl>
                 <FormLabel textColor={"black"}>Username</FormLabel>
@@ -51,11 +54,13 @@ export const ProfileDetail = () => {
                   name="username"
                   style={{ color: "red" }}
                 />
-                <Editable
-                  defaultValue={data.username}
+
+                <Input
+                  variant="flushed"
+                  defaultValue={data?.username}
                   fontSize="md"
                   isPreviewFocusable={false}
-                ></Editable>
+                ></Input>
               </FormControl>
 
               <FormControl>
@@ -65,11 +70,12 @@ export const ProfileDetail = () => {
                   name="email"
                   style={{ color: "red" }}
                 />
-                <Editable
-                  defaultValue={data.email}
+                <Input
+                  variant="flushed"
+                  defaultValue={data?.email}
                   fontSize="md"
                   isPreviewFocusable={false}
-                ></Editable>
+                ></Input>
               </FormControl>
 
               <FormControl>
@@ -79,11 +85,12 @@ export const ProfileDetail = () => {
                   name="phone"
                   style={{ color: "red" }}
                 />
-                <Editable
-                  defaultValue={data.phone}
+                <Input
+                  variant="flushed"
+                  defaultValue={data?.phone}
                   fontSize="md"
                   isPreviewFocusable={false}
-                ></Editable>
+                ></Input>
               </FormControl>
 
               <FormControl>
@@ -93,11 +100,12 @@ export const ProfileDetail = () => {
                   name="password"
                   style={{ color: "red" }}
                 />
-                <Editable
+                <Input
+                  variant="flushed"
                   defaultValue={data.password}
                   fontSize="md"
                   isPreviewFocusable={false}
-                ></Editable>
+                ></Input>
               </FormControl>
             </Stack>
           </Box>

@@ -91,6 +91,7 @@ export const CreateBlog = () => {
       console.log(err);
     }
   };
+  
   useEffect(() => {
     getCategory();
   }, []);
@@ -114,7 +115,7 @@ export const CreateBlog = () => {
     >
       {({ setFieldValue, dirty }) => {
         return (
-          <Box as={Form} p={"5%"}>
+          <Box as={Form} p={"5%"} >
             <Box>
               <Heading
                 mb={5}
@@ -140,7 +141,7 @@ export const CreateBlog = () => {
                   borderWidth={"10px"}
                   borderRadius="md"
                   boxShadow="lg"
-                  borderColor={"blackAlpha.500"}
+                  borderColor={"black"}
                   p={"20px"}
                 >
                   <Stack spacing={"20px"}>
@@ -273,7 +274,7 @@ export const CreateBlog = () => {
                     borderWidth={"10px"}
                     borderRadius="md"
                     boxShadow="lg"
-                    borderColor={"blackAlpha.500"}
+                    borderColor={"black"}
                   >
                     <FormLabel textColor={"black"}>Text it!</FormLabel>
                     <ErrorMessage

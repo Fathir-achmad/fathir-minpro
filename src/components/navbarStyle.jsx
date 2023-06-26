@@ -70,8 +70,8 @@ export const NavbarStyle = () => {
               zIndex={"200"}
             >
               <Flex alignItems="center" mx={5}>
-                <Text fontSize="4xl" fontWeight="bold">
-                  <Link onClick={() => handleClick("/")}>Lo Blog!</Link>
+                <Text fontSize="4xl" fontWeight="extrabold">
+                  <Link onClick={() => handleClick("/")}>Low Blog!</Link>
                 </Text>
               </Flex>
               <InputGroup size="md" h={"20%"} w={"40%"}>
@@ -84,10 +84,10 @@ export const NavbarStyle = () => {
               </InputGroup>
               {token ? (
                 <Box mx={5}>
-                  <HStack  w={"30vw"} justify={"space-between"}>
-                <Text fontSize="2xl" fontWeight="bold">
+                  <HStack  w={"20vw"} justify={"space-between"}>
+                {/* <Text fontSize="2xl" fontWeight="bold">
                   <Link onClick={() => handleClick("/searchResult")}>Category</Link>
-                </Text>
+                </Text> */}
                 <Text fontSize="2xl" fontWeight="bold">
                   <Link onClick={() => handleClick("/createBlog")}>Create blog</Link>
                 </Text>
@@ -108,7 +108,7 @@ export const NavbarStyle = () => {
                         
                       <Avatar
                         src={`https://minpro-blog.purwadhikabootcamp.com/${data?.imgProfile}`}
-                        />
+                        transform={"translate(100px 100px)"}/>
                   <Box>
                     <Text fontWeight={"bold"}>{data.username}</Text>
                   </Box>

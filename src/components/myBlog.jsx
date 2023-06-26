@@ -1,10 +1,11 @@
 import { Box, Button, Center, Heading, Image, Text } from "@chakra-ui/react";
 import Axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const MyBlog = () => {
   const [data, setData] = useState();
+  const navigate = useNavigate()
   const params = useParams();
   const token = localStorage.getItem("token");
   console.log(token);
@@ -40,6 +41,10 @@ export const MyBlog = () => {
       console.log(err);
     }
   };
+  const handleClick = (id) => {
+    navigate(`/detailPage/${id}`);
+    window.location.reload();
+  };
   useEffect(() => {
     showBlog();
   }, []);
@@ -73,8 +78,9 @@ export const MyBlog = () => {
               boxShadow="lg"
               borderColor={"blackAlpha.500"}
             >
-              <Box key={i} textAlign={"center"} p={"5%"}>
-                {v.title}
+              <Box key={i} onClick={() => handleClick(v.id)} textAlign={"center"} p={"5%"} cursor={"pointer"}>
+<Text fontSize="15px" fontWeight="bold">                {v.title}
+</Text>
                 <Image
                   w={"200px"}
                   src={`https://minpro-blog.purwadhikabootcamp.com/${v.imageURL}`}

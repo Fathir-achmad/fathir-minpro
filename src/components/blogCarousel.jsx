@@ -11,7 +11,7 @@ import "./styles.css";
 // import required modules
 import { Pagination, Navigation, Autoplay } from "swiper";
 import Axios from "axios";
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 export const BlogCarousel = () => {
@@ -66,12 +66,23 @@ export const BlogCarousel = () => {
         {content?.map((v, i) => {
           return (
             <SwiperSlide key={i} onClick={() => handleClick(v.id)}>
+              <Stack>
+              <Box
+              boxShadow={"0px 0px 15px blue"}
+              borderRadius={"20px"}
+              >
               <Image
                 src={`https://minpro-blog.purwadhikabootcamp.com/${v.imageURL}`}
               ></Image>
-              {/* <Text>
+              </Box>
+
+              <Box>
+              <Text>
                 {v.title}
-              </Text> */}
+              </Text>
+              </Box>
+              </Stack>
+
             </SwiperSlide>
           );
         })}

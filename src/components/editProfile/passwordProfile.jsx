@@ -24,13 +24,11 @@ export const ChangePassword = () => {
   const token = localStorage.getItem("token");
   console.log(data);
 
-  // const navigate = useNavigate();
-  const onChangeIt = () => {
-    // localStorage.removeItem("token");
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = async (data) => {
     try {
+      data.FE_URL = "http://localhost:4000";
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/changePass",
         data,
@@ -47,9 +45,10 @@ export const ChangePassword = () => {
         duration: 3000,
         isClosable: true,
       });
-      // setTimeout(() => {
-      //   navigate("/login");
-      // }, 3000);
+            localStorage.removeItem("token");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     } catch (err) {
       console.log(err);
       toast({
@@ -95,7 +94,7 @@ export const ChangePassword = () => {
       {(props) => {
         return (
           <Box as={Form} rounded={"lg"} boxShadow={"lg"} p={8}>
-            <Heading textAlign={"center"}>Edit password</Heading>
+            <Heading textAlign={"center"} mb={"10%"}>Edit password</Heading>
 
             <Stack spacing={4}>
               <FormControl>
@@ -150,7 +149,6 @@ export const ChangePassword = () => {
               <Stack spacing={10} pt={2}>
                 <Button
                   isDisabled={!props.dirty}
-                  onClick={onChangeIt}
                   type={"submit"}
                   loadingText="Submitting"
                   size="lg"

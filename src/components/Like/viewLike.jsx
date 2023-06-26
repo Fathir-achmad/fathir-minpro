@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Heading, Image, List, Stack, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const ViewLike = () => {
   const [likedBlogs, setLikedBlogs] = useState([]);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-
+  const navigate = useNavigate()
   const [data, setData] = useState();
   const params = useParams();
   const getDetail = async (data) => {
@@ -22,6 +22,10 @@ export const ViewLike = () => {
     }
   };
   console.log(data);
+  const handleClick = (id) => {
+    navigate(`/detailPage/${id}`);
+    window.location.reload();
+  };
 
   useEffect(() => {
     fetchLikedBlogs();
@@ -84,7 +88,10 @@ export const ViewLike = () => {
                 mb={"5%"}
                 
               >
-                <Box key={blog.id} textAlign={"center"}>
+                <Box key={blog.id} textAlign={"center"} 
+                onClick={() => handleClick(blog.id)}
+                cursor={"pointer"}
+                >
                   <Image
                     src={`https://minpro-blog.purwadhikabootcamp.com/${data?.imageURL}`}
                   />

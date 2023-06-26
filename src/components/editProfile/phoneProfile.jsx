@@ -19,15 +19,12 @@ export const ChangePhone = () => {
   const data = useSelector((state) => state.user.value);
   const token = localStorage.getItem("token");
   console.log(data);
-  const toast = useToast()
+  const toast = useToast();
   const navigate = useNavigate();
-  const onChangeIt = () => {
-    localStorage.removeItem("token");
-  };
 
   const handleSubmit = async (data) => {
     try {
-      data.FE_URL = "http://localhost:3000";
+      data.FE_URL = window.location.origin;
       const response = await Axios.patch(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/changePhone",
         data,
@@ -39,11 +36,12 @@ export const ChangePhone = () => {
       console.log(response);
       toast({
         title: "Edit profile Success",
-        description: "You have successfully changed your profile.",
+        description: "You have successfully changed your phone, please verify first.",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
+      localStorage.removeItem("token");
       setTimeout(() => {
         navigate("/login");
       }, 3000);
@@ -78,8 +76,9 @@ export const ChangePhone = () => {
       {(props) => {
         return (
           <Box as={Form} rounded={"lg"} boxShadow={"lg"} p={8}>
-            <Heading textAlign={"center"}>Edit phone</Heading>
-
+            <Heading textAlign={"center"} mb={"10%"}>
+              Edit phone
+            </Heading>
             <Stack spacing={4}>
               <FormControl>
                 <FormLabel>Current phone</FormLabel>
@@ -88,9 +87,8 @@ export const ChangePhone = () => {
                   name="currentPhone"
                   style={{ color: "red" }}
                 />
-                <Input as={Field} name="currentPhone" />
+                <Input as={Field} type="number" name="currentPhone" />
               </FormControl>
-
               <FormControl>
                 <FormLabel>New phone</FormLabel>
                 <ErrorMessage
@@ -98,12 +96,11 @@ export const ChangePhone = () => {
                   name="newPhone"
                   style={{ color: "red" }}
                 />
-                <Input as={Field} name="newPhone" />
+                <Input as={Field} type="number" name="newPhone" />
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
                   isDisabled={!props.dirty}
-                  onClick={onChangeIt}
                   type={"submit"}
                   loadingText="Submitting"
                   size="lg"
