@@ -14,7 +14,6 @@ export const ChangeAva = () => {
 
   const handleSubmit = async (values) => {
     try {
-        data.FE_URL = window.location.origin;
       const { file } = values;
       const formData = new FormData();
       formData.append("file", file);
