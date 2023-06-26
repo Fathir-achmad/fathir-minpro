@@ -6,6 +6,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import Axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -17,6 +18,7 @@ export const ResetPsw = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { token } = useParams();
+  const toast = useToast()
   const SeePsw = () => {
     setShowPassword(!showPassword);
   };
@@ -45,8 +47,25 @@ export const ResetPsw = () => {
       );
       navigate("/login");
       console.log(response.data);
+      toast({
+        title: "Succses",
+        description: "Please login again",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "An error to create your password.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
   return (
