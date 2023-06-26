@@ -18,14 +18,13 @@ import { useNavigate, useParams } from "react-router-dom";
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const toast = useToast()
+  const toast = useToast();
   const { token } = useParams();
   const SeePsw = () => {
     setShowPassword(!showPassword);
   };
 
   const RegisSchema = Yup.object().shape({
-
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -47,7 +46,7 @@ export const RegisterPage = () => {
       .required("Password is required"),
   });
   const handleSubmit = async (data) => {
-    data.FE_URL = "http://localhost:3000";
+    data.FE_URL = window.location.origin;
     try {
       const response = await Axios.post(
         "https://minpro-blog.purwadhikabootcamp.com/api/auth/",
