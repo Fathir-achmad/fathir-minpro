@@ -19,7 +19,8 @@ export const SearchResult = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate()
+  const [sortOrder, setSortOrder] = useState(""); // New state variable
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCategories();
@@ -44,6 +45,7 @@ export const SearchResult = () => {
           params: {
             search: searchTerm,
             category: selectedCategory,
+            sort: sortOrder, // Include the sort order in the API request
           },
         }
       );
@@ -62,11 +64,28 @@ export const SearchResult = () => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+    setSortOrder("");
+  };
+
+  const handleSortOrderChange = (event) => {
+    setSortOrder(event.target.value);
   };
 
   const handleClick = (id) => {
     navigate(`/detailPage/${id}`);
     window.location.reload();
+  };
+
+  const sortResults = () => {
+    const sortedResults = [...searchResults];
+
+    if (sortOrder === "asc") {
+      sortedResults.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    } else if (sortOrder === "desc") {
+      sortedResults.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    }
+
+    return sortedResults;
   };
 
   return (
@@ -114,7 +133,7 @@ export const SearchResult = () => {
                     >
                       <option
                         style={{
-                          backgroundColor: "rgb(135,206,250)",
+                          backgroundColor: "black",
                           border: "0px",
                         }}
                         value=""
@@ -124,7 +143,7 @@ export const SearchResult = () => {
                       {categories.map((category) => (
                         <option
                           style={{
-                            backgroundColor: "rgb(135,206,250)",
+                            backgroundColor: "black",
                             border: "0px",
                           }}
                           key={category.id}
@@ -133,6 +152,37 @@ export const SearchResult = () => {
                           {category.name}
                         </option>
                       ))}
+                    </Select>
+
+                    <FormLabel mt={4}>Sort Order</FormLabel>
+                    <Select value={sortOrder} onChange={handleSortOrderChange}>
+                      <option
+                        value=""
+                        style={{
+                          backgroundColor: "black",
+                          border: "0px",
+                        }}
+                      >
+                        None
+                      </option>
+                      <option
+                        value="asc"
+                        style={{
+                          backgroundColor: "black",
+                          border: "0px",
+                        }}
+                      >
+                        Ascending
+                      </option>
+                      <option
+                        value="desc"
+                        style={{
+                          backgroundColor: "black",
+                          border: "0px",
+                        }}
+                      >
+                        Descending
+                      </option>
                     </Select>
 
                     <Button mt={4} onClick={handleSearch}>
@@ -149,18 +199,19 @@ export const SearchResult = () => {
                 w={"40%"}
                 p={"30px"}
               >
-                {searchResults.map((item,value) => (
+                {sortResults().map((item) => (
                   <Box
                     key={item.id}
-                    onClick={() => handleClick(item.id) }
+                    onClick={() => handleClick(item.id)}
                     cursor={"pointer"}
                     color={"black"}
-                    _hover={{ color: "blue.400", transition: "0.3s" }}
+                    // _hover={{ color: "white", transition: "0.3s" }}
                     mb={"20px"}
                   >
                     <ul>
                       <li>
                         <h3>{item.title}</h3>
+                        <p>Created At: {item.createdAt}</p>
                       </li>
                     </ul>
                   </Box>
